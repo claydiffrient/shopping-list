@@ -29,11 +29,13 @@
     "gulp-live-server": "0.0.24",
     "gulp-util": "^3.0.6",
     "morgan": "~1.3.0",
+    "sails-memory": "^0.10.5",
     "serve-favicon": "~2.1.3",
     "webpack": "^1.11.0"
   },
   "dependencies": {
     "express-handlebars": "^2.0.1",
-    "react": "^0.13.3"
+    "react": "^0.13.3",
+    "waterline": "^0.10.26"
   }
 }

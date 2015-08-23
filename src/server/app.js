@@ -5,6 +5,8 @@ import logger from 'morgan';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import exphbs from 'express-handlebars';
+import itemRoutes from './routes/items';
+
 
 let app = express();
 
@@ -19,17 +21,21 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'handlebars');
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(__dirname + '/public/favicon.ico'));
+// app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../client')));
 
+app.models = {};
+
 app.get('/', (req, res) => {
   console.log();
   res.render('home', {});
 });
+
+app.use('/items', itemRoutes(app));
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -45,9 +51,11 @@ app.use((req, res, next) => {
 if (app.get('env') === 'development') {
   app.use((err, req, res, next) => {
     res.status(err.status || 500);
+    appDebug('Error caught' + err.status || 500);
     res.render('error', {
       message: err.message,
-      error: err
+      error: err,
+      stack: err.stack
     });
   });
 }
