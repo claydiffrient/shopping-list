@@ -21,6 +21,7 @@ gulp.task('babel:server', function () {
  */
 gulp.task('watch:server', function () {
   gulp.watch('src/server/**/*.js', ['babel:server']);
+  gulp.watch('src/server/views/**/*.handlebars', ['copy:server:views']);
 });
 
 /**
@@ -29,7 +30,12 @@ gulp.task('watch:server', function () {
  */
 gulp.task('watch:client', function () {
   gulp.watch('src/client/**/*.js', ['webpack:client:build-dev']);
-})
+});
+
+gulp.task('copy:server:views', function () {
+  return gulp.src('src/server/views/**/*.handlebars')
+             .pipe(gulp.dest('compiled/server/views'));
+});
 
 gulp.task('watch', ['watch:client', 'watch:server']);
 
