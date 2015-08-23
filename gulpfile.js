@@ -3,6 +3,9 @@ var babel = require('gulp-babel');
 var gutil = require("gulp-util");
 var webpack = require('webpack');
 var webpackConfig = require('./webpack.config.js');
+var gls = require('gulp-live-server');
+
+var server = gls.new('./bin/www');
 
 /**
  * Pipes all JS files from the server source directory
@@ -20,8 +23,13 @@ gulp.task('babel:server', function () {
  * triggers the babel:server task
  */
 gulp.task('watch:server', function () {
-  gulp.watch('src/server/**/*.js', ['babel:server']);
-  gulp.watch('src/server/views/**/*.handlebars', ['copy:server:views']);
+  var jsWatcher = gulp.watch('src/server/**/*.js', ['babel:server']);
+  var viewWatcher = gulp.watch('src/server/views/**/*.handlebars', ['copy:server:views']);
+  var notify = function (event) {
+    server.notify(event);
+  };
+  jsWatcher.on('change', notify);
+  viewWatcher.on('change', notify);
 });
 
 /**
@@ -37,6 +45,10 @@ gulp.task('copy:server:views', function () {
              .pipe(gulp.dest('compiled/server/views'));
 });
 
+gulp.task('serve', function () {
+  server.start();
+});
+
 gulp.task('watch', ['watch:client', 'watch:server']);
 
 var devConfig = Object.create(webpackConfig);
@@ -49,7 +61,6 @@ var devCompiler = webpack(devConfig);
  * Runs webpack on the client side assets for development.
  */
 gulp.task('webpack:client:build-dev', function (callback) {
-  console.log('here');
   devCompiler.run(function (err, stats) {
     if (err) throw new gutil.PluginError('webpack:client:build', err);
     gutil.log('[webpack:build-dev]', stats.toString({
@@ -62,4 +73,4 @@ gulp.task('webpack:client:build-dev', function (callback) {
 /**
  * The task that runs by default whenever another task isn't specified.
  */
-gulp.task('default', ['watch:server', 'watch:client']);
+gulp.task('default', ['serve', 'watch:server', 'watch:client']);
