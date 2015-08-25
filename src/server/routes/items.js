@@ -9,8 +9,7 @@ export default function (app) {
    * GET /items
    */
   itemRouter.get('/', (req, res) => {
-    console.log(app);
-    app.models.item.find({}).done((err, models) => {
+    app.models.item.find({}).exec((err, models) => {
       if (err) return res.status(500).json({err});
       res.json(models);
     });

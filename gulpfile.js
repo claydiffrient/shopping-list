@@ -1,6 +1,6 @@
 var gulp = require('gulp');
 var babel = require('gulp-babel');
-var gutil = require("gulp-util");
+var gutil = require('gulp-util');
 var webpack = require('webpack');
 var webpackConfig = require('./webpack.config.js');
 var gls = require('gulp-live-server');
@@ -26,7 +26,9 @@ gulp.task('watch:server', function () {
   var jsWatcher = gulp.watch('src/server/**/*.js', ['babel:server']);
   var viewWatcher = gulp.watch('src/server/views/**/*.handlebars', ['copy:server:views']);
   var notify = function (event) {
-    server.notify(event);
+    server.stop();
+    server.start();
+    // server.notify(event);
   };
   jsWatcher.on('change', notify);
   viewWatcher.on('change', notify);
@@ -37,7 +39,10 @@ gulp.task('watch:server', function () {
  * the webpack:client:build-dev task
  */
 gulp.task('watch:client', function () {
-  gulp.watch('src/client/**/*.js', ['webpack:client:build-dev']);
+  var clientWatch = gulp.watch('src/client/**/*.js', ['webpack:client:build-dev']);
+  clientWatch.on('change', function (event) {
+    server.notify(event);
+  });
 });
 
 gulp.task('copy:server:views', function () {

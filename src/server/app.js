@@ -7,7 +7,6 @@ import bodyParser from 'body-parser';
 import exphbs from 'express-handlebars';
 import itemRoutes from './routes/items';
 
-
 let app = express();
 
 // view engine setup
@@ -51,7 +50,6 @@ app.use((req, res, next) => {
 if (app.get('env') === 'development') {
   app.use((err, req, res, next) => {
     res.status(err.status || 500);
-    appDebug('Error caught' + err.status || 500);
     res.render('error', {
       message: err.message,
       error: err,

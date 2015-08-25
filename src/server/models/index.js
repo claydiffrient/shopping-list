@@ -1,20 +1,40 @@
 import memoryAdapter from 'sails-memory';
+import psqlAdapter from 'sails-postgresql';
 import Waterline from 'waterline';
 import fs from 'fs';
 import path from 'path';
+import config from 'config';
 
 let orm = new Waterline();
 
-let config = {
-  adapters: {
-    'memory': memoryAdapter
-  },
-  connections: {
-    default: {
-      adapter: 'memory'
-    }
+let connections = {
+  'default': {
+    adapter: config.get('Database.defaultAdapter') || 'memory'
   }
 };
+
+if (config.has('Database.psql')) {
+  connections.psql = {
+      adapter: 'psql',
+      host: config.get('Database.psql.host'),
+      user: config.get('Database.psql.user'),
+      password: config.get('Database.psql.password'),
+      database: config.get('Database.psql.database'),
+      pool: false,
+      ssl: false,
+      schema: true
+    };
+}
+
+let wlConfig = {
+  adapters: {
+    'memory': memoryAdapter,
+    'psql': psqlAdapter
+  },
+  connections
+};
+
+console.log(wlConfig)
 
 fs
   .readdirSync(__dirname)
@@ -26,4 +46,4 @@ fs
     orm.loadCollection(model);
   });
 
-export default {waterline: orm, config: config};
+export default {waterline: orm, config: wlConfig};
