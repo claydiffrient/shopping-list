@@ -25,6 +25,7 @@
     "express": "~4.9.0",
     "gulp": "^3.9.0",
     "gulp-babel": "^5.2.1",
+    "gulp-doxx": "0.0.5",
     "gulp-express": "^0.3.5",
     "gulp-live-server": "0.0.24",
     "gulp-util": "^3.0.6",

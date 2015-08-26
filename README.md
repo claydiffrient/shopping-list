@@ -11,6 +11,7 @@ A simple exercise in learning the following technologies/techniques/things:
 - ExpressJS for running the server/API
 - ReactJS to render the front-end
 - Falcor to feed the data to the front-end
+- JSDoc to document the functions
 
 The application itself is a simple shopping list.
 It will simply show a list of items that have been added to the list

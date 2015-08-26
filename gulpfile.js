@@ -4,6 +4,7 @@ var gutil = require('gulp-util');
 var webpack = require('webpack');
 var webpackConfig = require('./webpack.config.js');
 var gls = require('gulp-live-server');
+var doxx = require('gulp-doxx');
 
 var server = gls.new('./bin/www');
 
@@ -73,6 +74,19 @@ gulp.task('webpack:client:build-dev', function (callback) {
     }));
     callback();
   });
+});
+
+/**
+ * Generate documentation
+ */
+gulp.task('docs', function () {
+  gulp.src(['./src/**/*.js', 'README.md'], {base: '.'})
+      .pipe(doxx({
+        title: 'Shopping List',
+        urlPrefix: '/docs'
+      }))
+      .pipe(gulp.dest('docs')) // For ease of access in the repo
+      .pipe(gulp.dest('compiled/client/docs')); // For hosting in the app
 });
 
 /**
