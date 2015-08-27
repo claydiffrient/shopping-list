@@ -84,18 +84,43 @@
           </div>
         </div>
         <div class="span9">
-          <div class="description"><p>GET /items</p> </div>
+          <div class="description"><p>GET /items<br />Returns an array of all items in the database.</p> </div>
           <pre><code class="language-javascript">itemRouter.get('/', (req, res) =&gt; {
   app.models.item.find({}).exec((err, models) =&gt; {
     if (err) return res.status(500).json({err});
     res.json(models);
   });
 });</code></pre>
-          <div class="description"><p>POST /items</p> </div>
+          <div class="description"><p>GET /items/:id<br />Returns an item based on the id</p> </div>
+          <pre><code class="language-javascript">itemRouter.get('/:id', (req, res) =&gt; {
+  app.models.item.findOne({id: req.params.id}).exec((err, model) =&gt; {
+    if (err) return res.status(500).json({err});
+    res.json(model);
+  });
+});</code></pre>
+          <div class="description"><p>POST /items<br />Adds a new item to the database. The item object looks<br />like this:</p><pre><code>  {
+    name: &#39;Item Name&#39;, (required)
+    price: &#39;2.00&#39;
+  }
+</code></pre> </div>
           <pre><code class="language-javascript">itemRouter.post('/', (req, res) =&gt; {
   app.models.item.create(req.body, (err, model) =&gt; {
     if (err) return res.status(500).json({err});
     res.json(model);
+  });
+});</code></pre>
+          <div class="description"><p>PUT /items/:id<br />Updates an item in the database on the id.</p> </div>
+          <pre><code class="language-javascript">itemRouter.put('/:id', (req, res) =&gt; {
+  app.models.item.update({id: req.params.id}, req.body, (err, model) =&gt; {
+    if (err) return res.status(500).json({err});
+    res.json(model);
+  });
+});</code></pre>
+          <div class="description"><p>DELETE /items/:id<br />Deletes an item based on the given id.<br />Returns <code>{ ok: &#39;success&#39;}</code> on success.</p> </div>
+          <pre><code class="language-javascript">itemRouter.delete('/:id', (req, res) =&gt; {
+  app.models.item.destroy({id: req.params.id}, (err, res) =&gt; {
+    if (err) return res.status(500).json({err});
+    res.status(200).json({'ok': 'success'});
   });
 });
 
