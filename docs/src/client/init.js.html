@@ -97,8 +97,16 @@ let model = new falcor.Model({
   source: new HttpDataSource('/model.json')
 });
 
+// model
+//   .get(&quot;hello&quot;)
+//   .then((response) =&gt; {
+//     document.write(response);
+//   });
+
+
+// Not working at the moment :(
 model
-  .get([1, 2])
+  .get(&quot;itemsById[1, 2]&quot;) // Hard coded for now... :(
   .then((response) =&gt; {
     document.write(response);
   });</code></pre>

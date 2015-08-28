@@ -6,21 +6,25 @@ let $error = jsonGraph.error;
 
 let ListRouterBase = FalcorRouter.createClass([
 {
-  route: 'itemsById[{integers:itemIds}]',
+  route: 'itemsById[{integers:itemIds}]["name", "price"]',
   get (pathSet) {
+    console.log('HERE');
     let app = this.app;
-
     return app.models.item.find({
       id: pathSet.itemIds
     }).then((items) => {
-      return items;
+      return {path: pathSet, value: items};
     });
   }
-
+}, {
+  route: 'hello',
+  get () {
+    return {path: ['hello'], value: 'World'};
+  }
 }
 ]);
 
-let ShoppingListRouter = (app) => {
+let ShoppingListRouter = function (app) {
   ListRouterBase.call(this);
   this.app = app;
 };

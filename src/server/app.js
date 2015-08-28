@@ -7,7 +7,8 @@ import bodyParser from 'body-parser';
 import exphbs from 'express-handlebars';
 import itemRoutes from './routes/items';
 import falcorExpress from 'falcor-express';
-import FalcorRoutes from './routes/falcorRoutes';
+// import FalcorRoutes from './routes/falcorRoutes';
+import FalcorRouter from 'falcor-router';
 
 let app = express();
 
@@ -39,7 +40,17 @@ app.get('/', (req, res) => {
 app.use('/items', itemRoutes(app));
 
 app.use('/model.json', falcorExpress.dataSourceRoute((req, res) => {
-  return FalcorRoutes(app);
+  return new FalcorRouter([{
+    route: 'itemsById[{integers:itemIds}]["name", "price"]',
+    get (pathSet) {
+      console.log('HERE');
+      return app.models.item.find({
+        id: pathSet.itemIds
+      }).then((items) => {
+        return {path: pathSet, value: items};
+      });
+    }
+  }]);
 }));
 
 // catch 404 and forward to error handler
