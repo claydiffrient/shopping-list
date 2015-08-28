@@ -29,7 +29,11 @@ module.exports = {
     })
   ],
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['', '.js', '.jsx'],
+    alias: {
+      // Workaround https://github.com/Reactive-Extensions/RxJS/issues/832, until it's fixed
+      'rx$': '/node_modules/falcor/node_modules/rx/dist/rx.js'
+    }
   },
   module: {
     loaders: [

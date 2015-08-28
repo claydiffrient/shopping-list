@@ -36,8 +36,14 @@
     "webpack": "^1.11.0"
   },
   "dependencies": {
+    "babel-runtime": "^5.8.20",
     "config": "^1.15.0",
     "express-handlebars": "^2.0.1",
+    "falcor": "^0.1.12",
+    "falcor-express": "^0.1.2",
+    "falcor-http-datasource": "^0.1.1",
+    "falcor-json-graph": "^1.1.5",
+    "falcor-router": "^0.2.9",
     "react": "^0.13.3",
     "sails-postgresql": "^0.10.16",
     "waterline": "^0.10.26"

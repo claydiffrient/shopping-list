@@ -1,6 +1,16 @@
-// Test
-//
+// Client
 
-var name = 'Clay';
+import falcor from 'falcor';
+import HttpDataSource from 'falcor-http-datasource';
 
-console.log(`Hello ${name}, welcome to the world`);
+let myFalcor = falcor();
+
+let model = new falcor.Model({
+  source: new HttpDataSource('/model.json')
+});
+
+model
+  .get([1, 2])
+  .then((response) => {
+    document.write(response);
+  });

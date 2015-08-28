@@ -6,6 +6,8 @@ import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import exphbs from 'express-handlebars';
 import itemRoutes from './routes/items';
+import falcorExpress from 'falcor-express';
+import FalcorRoutes from './routes/falcorRoutes';
 
 let app = express();
 
@@ -35,6 +37,10 @@ app.get('/', (req, res) => {
 });
 
 app.use('/items', itemRoutes(app));
+
+app.use('/model.json', falcorExpress.dataSourceRoute((req, res) => {
+  return FalcorRoutes(app);
+}));
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
