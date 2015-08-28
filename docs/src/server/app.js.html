@@ -76,6 +76,7 @@
             <li class="active"><a href="/docs/src/server/app.js.html">src/server/app.js</a></li>
             <li><a href="/docs/src/server/models/Item.js.html">src/server/models/Item.js</a></li>
             <li><a href="/docs/src/server/models/index.js.html">src/server/models/index.js</a></li>
+            <li><a href="/docs/src/server/routes/falcorRoutes.js.html">src/server/routes/falcorRoutes.js</a></li>
             <li><a href="/docs/src/server/routes/items.js.html">src/server/routes/items.js</a></li>
           </ul>
           <div class="scrollspy">
@@ -93,6 +94,8 @@ import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import exphbs from 'express-handlebars';
 import itemRoutes from './routes/items';
+import falcorExpress from 'falcor-express';
+import FalcorRoutes from './routes/falcorRoutes';
 
 let app = express();
 
@@ -122,6 +125,10 @@ app.get('/', (req, res) =&gt; {
 });
 
 app.use('/items', itemRoutes(app));
+
+app.use('/model.json', falcorExpress.dataSourceRoute((req, res) =&gt; {
+  return FalcorRoutes(app);
+}));
 
 // catch 404 and forward to error handler
 app.use((req, res, next) =&gt; {

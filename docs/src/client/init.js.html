@@ -76,6 +76,7 @@
             <li><a href="/docs/src/server/app.js.html">src/server/app.js</a></li>
             <li><a href="/docs/src/server/models/Item.js.html">src/server/models/Item.js</a></li>
             <li><a href="/docs/src/server/models/index.js.html">src/server/models/index.js</a></li>
+            <li><a href="/docs/src/server/routes/falcorRoutes.js.html">src/server/routes/falcorRoutes.js</a></li>
             <li><a href="/docs/src/server/routes/items.js.html">src/server/routes/items.js</a></li>
           </ul>
           <div class="scrollspy">
@@ -85,12 +86,22 @@
         </div>
         <div class="span9">
           <div class="description"> </div>
-          <pre><code class="language-javascript">// Test
-//
+          <pre><code class="language-javascript">// Client
 
-var name = 'Clay';
+import falcor from 'falcor';
+import HttpDataSource from 'falcor-http-datasource';
 
-console.log(`Hello ${name}, welcome to the world`);</code></pre>
+let myFalcor = falcor();
+
+let model = new falcor.Model({
+  source: new HttpDataSource('/model.json')
+});
+
+model
+  .get([1, 2])
+  .then((response) =&gt; {
+    document.write(response);
+  });</code></pre>
         </div>
       </div>
     </div>

@@ -71,12 +71,12 @@
       <div class="row">
         <div class="span3 bs-docs-sidebar">
           <ul class="nav nav-list bs-docs-sidenav affix-top">
-            <li class="active"><a href="/docs/index.html">Main</a></li>
+            <li><a href="/docs/index.html">Main</a></li>
             <li><a href="/docs/src/client/init.js.html">src/client/init.js</a></li>
             <li><a href="/docs/src/server/app.js.html">src/server/app.js</a></li>
             <li><a href="/docs/src/server/models/Item.js.html">src/server/models/Item.js</a></li>
             <li><a href="/docs/src/server/models/index.js.html">src/server/models/index.js</a></li>
-            <li><a href="/docs/src/server/routes/falcorRoutes.js.html">src/server/routes/falcorRoutes.js</a></li>
+            <li class="active"><a href="/docs/src/server/routes/falcorRoutes.js.html">src/server/routes/falcorRoutes.js</a></li>
             <li><a href="/docs/src/server/routes/items.js.html">src/server/routes/items.js</a></li>
           </ul>
           <div class="scrollspy">
@@ -85,23 +85,37 @@
           </div>
         </div>
         <div class="span9">
-          <section id="Main"><h1>shopping-list</h1>
-<p>A simple exercise in learning the following technologies/techniques/things:</p><ul>
-<li>Using ES2015 with Node<ul>
-<li>Accomplished by transpiling code with babel prior to running it.</li>
-<li>Using Gulp to do so</li>
-</ul>
-</li>
-<li>Using Waterline ORM<ul>
-<li>This allows different databases to be used</li>
-</ul>
-</li>
-<li>ExpressJS for running the server/API</li>
-<li>ReactJS to render the front-end</li>
-<li>Falcor to feed the data to the front-end</li>
-<li>JSDoc to document the functions</li>
-</ul>
-<p>The application itself is a simple shopping list.<br />It will simply show a list of items that have been added to the list<br />and keep track of the price of a given item if it has been purchased<br />before.</p></section>
+          <div class="description"> </div>
+          <pre><code class="language-javascript">import FalcorRouter from 'falcor-router';
+import jsonGraph from 'falcor-json-graph';
+
+let $ref = jsonGraph.ref;
+let $error = jsonGraph.error;
+
+let ListRouterBase = FalcorRouter.createClass([
+{
+  route: 'itemsById[{integers:itemIds}]',
+  get (pathSet) {
+    let app = this.app;
+
+    return app.models.item.find({
+      id: pathSet.itemIds
+    }).then((items) =&gt; {
+      return items;
+    });
+  }
+
+}
+]);
+
+let ShoppingListRouter = (app) =&gt; {
+  ListRouterBase.call(this);
+  this.app = app;
+};
+
+export default function (app) {
+  return new ShoppingListRouter(app);
+};</code></pre>
         </div>
       </div>
     </div>

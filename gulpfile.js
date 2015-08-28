@@ -24,7 +24,7 @@ gulp.task('babel:server', function () {
  * triggers the babel:server task
  */
 gulp.task('watch:server', function () {
-  var jsWatcher = gulp.watch('src/server/**/*.js', ['babel:server']);
+  var jsWatcher = gulp.watch('src/server/**/*.js', ['babel:server', 'docs']);
   var viewWatcher = gulp.watch('src/server/views/**/*.handlebars', ['copy:server:views']);
   var notify = function (event) {
     server.stop();
@@ -40,7 +40,7 @@ gulp.task('watch:server', function () {
  * the webpack:client:build-dev task
  */
 gulp.task('watch:client', function () {
-  var clientWatch = gulp.watch('src/client/**/*.js', ['webpack:client:build-dev']);
+  var clientWatch = gulp.watch('src/client/**/*.js', ['webpack:client:build-dev', 'docs']);
   clientWatch.on('change', function (event) {
     server.notify(event);
   });
@@ -92,4 +92,4 @@ gulp.task('docs', function () {
 /**
  * The task that runs by default whenever another task isn't specified.
  */
-gulp.task('default', ['serve', 'watch:server', 'watch:client']);
+gulp.task('default', ['serve', 'watch:server', 'watch:client', 'docs']);
