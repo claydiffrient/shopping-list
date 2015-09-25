@@ -41,9 +41,9 @@ app.use('/items', itemRoutes(app));
 
 app.use('/model.json', falcorExpress.dataSourceRoute((req, res) => {
   return new FalcorRouter([{
-    route: 'itemsById[{integers:itemIds}]["name", "price"]',
+    route: 'itemsById[{integers:itemIds}]',
     get (pathSet) {
-      console.log('HERE');
+      console.log(pathSet);
       return app.models.item.find({
         id: pathSet.itemIds
       }).then((items) => {

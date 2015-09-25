@@ -90,6 +90,15 @@ gulp.task('docs', function () {
 });
 
 /**
+ * Compile tests
+ */
+gulp.task('babel:test', function () {
+  return gulp.src('src/test/client/**/*.test.js')
+             .pipe(babel())
+             .pipe(gulp.dest('compiled/test/client'));
+ });
+
+/**
  * The task that runs by default whenever another task isn't specified.
  */
 gulp.task('default', ['serve', 'watch:server', 'watch:client', 'docs']);

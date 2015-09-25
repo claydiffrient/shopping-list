@@ -20,5 +20,5 @@ let model = new falcor.Model({
 model
   .get("itemsById[1, 2]") // Hard coded for now... :(
   .then((response) => {
-    document.write(response);
+    console.log(response);
   });
